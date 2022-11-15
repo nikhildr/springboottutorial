@@ -6,8 +6,7 @@ pipeline {
         stage('Checkout Codebase') {
             steps {
                 cleanWs()
-                checkout scm: [$class: 'GitSCM',branches:[[name:'*/main]],userRemoteConfigs:
-                [[credentialsId: 'github-ssh-key',urls:'git@github.com:nikhildr/springboottutorial.git']]]
+                checkout scm: [$class: 'GitSCM',branches:[[name:'*/main]],userRemoteConfigs:[[credentialsId: 'github-ssh-key',urls:'git@github.com:nikhildr/springboottutorial.git']]]
             }
         }
 
