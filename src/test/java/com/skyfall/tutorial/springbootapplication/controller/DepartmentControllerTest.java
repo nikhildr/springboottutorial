@@ -3,6 +3,7 @@ package com.skyfall.tutorial.springbootapplication.controller;
 import com.skyfall.tutorial.springbootapplication.entity.Department;
 import com.skyfall.tutorial.springbootapplication.service.DepartmentService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ class DepartmentControllerTest {
     }
 
     @Test
+    @DisplayName("when_valid_department_data_save_success")
     void saveDepartment() throws Exception {
         Department inputDepartment = Department.builder()
                 .departmentName("Bio technology")
