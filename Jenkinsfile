@@ -14,19 +14,24 @@ pipeline {
 
       post {
         always {
+          jacoco()
           junit '**/target/surefire-reports/TEST-*.xml'
         }
       }
     }
     stage('Build') {
       steps {
-        sh './mvnw install'
+        sh './mvnw install -Dskiptests=true'
       }
+
     }
-    stage('Deploy') {
-      steps {
-        sh './mvn spring-boot:run'
-      }
-    }
+      stage('SonarQube analysis') {
+    //    def scannerHome = tool 'SonarScanner 4.0';
+            steps{
+            withSonarQubeEnv('sonarqube9.7') {
+            sh "./mvnw sonar:sonar"
+        }
+            }
   }
+}
 }

@@ -31,7 +31,7 @@ public class DepartmentController {
     @DeleteMapping("/departments/{id}")
     public String deleteDepartment(@PathVariable long id) {
         boolean status = departmentService.deleteDepartment(id);
-        return status == true ? "department deleted :)" : "not deleted";
+        return status ? "department deleted :)" : "not deleted";
     }
 
     @GetMapping("/departments/{id}")
