@@ -25,13 +25,29 @@ pipeline {
       }
 
     }
-      stage('SonarQube analysis') {
-    //    def scannerHome = tool 'SonarScanner 4.0';
-            steps{
-            withSonarQubeEnv('sonarqube9.7') {
-            sh "./mvnw sonar:sonar"
+    stage('SonarQube analysis') {
+      //    def scannerHome = tool 'SonarScanner 4.0';
+      steps {
+        withSonarQubeEnv('sonarqube9.7') {
+          sh "./mvnw sonar:sonar"
         }
-            }
+      }
+    }
+    stage('Docker Build') {
+      steps {
+        script {
+          sh 'docker build -t nikhildr/springtest .'
+        }
+      }
+    }
+    stage('Docker Deploy') {
+      steps {
+        script {
+          sh "docker stop nikhildr/springtest || true && docker rm nikhildr/springtest || true"
+          sh "docker run --name nikhildr/springtest -d -p 8081:8081 nikhildr/springtest"
+        }
+      }
+    }
   }
 }
 }

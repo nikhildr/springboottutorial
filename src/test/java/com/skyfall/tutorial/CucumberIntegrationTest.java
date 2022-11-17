@@ -8,9 +8,9 @@ import org.junit.runner.RunWith;
 @CucumberOptions(features = "classpath:features/",
         glue = {"com.skyfall.tutorial.cucumberglue"},
         tags = "@All",
-        plugin = {"html:target/cucumber-html-report", "json:target/cucumber.json",
-                "pretty:target/cucumber-pretty.txt", "usage:target/cucumber-usage.json",
-                "junit:target/cucumber-results.xml"},
+        plugin = { "pretty", "json:target/cucumber-reports/Cucumber.json",
+                "junit:target/cucumber-reports/Cucumber.xml",
+                "html:target/cucumber-reports"},
         monochrome = true)
 public class CucumberIntegrationTest {
 }
