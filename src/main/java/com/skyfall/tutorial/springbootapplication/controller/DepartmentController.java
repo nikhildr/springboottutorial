@@ -3,8 +3,16 @@ package com.skyfall.tutorial.springbootapplication.controller;
 import com.skyfall.tutorial.springbootapplication.entity.Department;
 import com.skyfall.tutorial.springbootapplication.exception.DepartmentNotFoundException;
 import com.skyfall.tutorial.springbootapplication.service.DepartmentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,6 +42,15 @@ public class DepartmentController {
         return status ? "department deleted :)" : "not deleted";
     }
 
+    @Operation(summary = "Get a book by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the book",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Department.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Book not found",
+                    content = @Content)})
     @GetMapping("/departments/{id}")
     public Department getDepartmentById(@PathVariable long id) throws DepartmentNotFoundException {
         Department department = departmentService.findById(id);
@@ -48,5 +65,10 @@ public class DepartmentController {
     @GetMapping("/departments/name/{name}")
     public Department getDepartmentByCode(@PathVariable String name) {
         return departmentService.findDepartmentByCode(name);
+    }
+
+    @GetMapping("/departmentsByPage")
+    public List<Department> filterBooks(@ParameterObject Pageable pageable) {
+        return departmentService.getAllDepartmentsByPage(pageable);
     }
 }

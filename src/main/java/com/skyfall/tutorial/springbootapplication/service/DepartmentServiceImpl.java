@@ -4,6 +4,7 @@ import com.skyfall.tutorial.springbootapplication.entity.Department;
 import com.skyfall.tutorial.springbootapplication.exception.DepartmentNotFoundException;
 import com.skyfall.tutorial.springbootapplication.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,5 +57,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department findDepartmentByCode(String departmentName) {
         return repository.findByDepartmentCode(departmentName);
+    }
+
+    @Override
+    public List<Department> getAllDepartmentsByPage(Pageable pageable) {
+        return (List<Department>) repository.findAll(pageable);
     }
 }
